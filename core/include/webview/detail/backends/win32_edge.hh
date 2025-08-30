@@ -792,6 +792,14 @@ private:
       return error_info{WEBVIEW_ERROR_UNSPECIFIED,
                         "put_IsStatusBarEnabled failed"};
     }
+
+    ICoreWebView2Controller2* controller2 = nullptr;
+    if (SUCCEEDED(m_controller->QueryInterface(IID_PPV_ARGS(&controller2)))) {
+      COREWEBVIEW2_COLOR c{0,0,0,0}; // A,R,G,B
+      controller2->put_DefaultBackgroundColor(c);
+      controller2->Release();
+    }
+
     add_init_script("function(message) {\n\
   return window.chrome.webview.postMessage(message);\n\
 }");
